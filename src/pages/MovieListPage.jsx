@@ -1,10 +1,44 @@
+import { useState } from "react"
+import movies from "../data/movies.json"
+import MovieCard from "../components/MovieCard"
+
 export default function MovieListPage(){
+    
+    const [search, setSearch] = useState('')
+
+    const handleSearch = (event) => {
+        setSearch(event.target.value)
+        console.log(search);
+        
+    }
+
+    const filmesFiltrados = movies.filter( filme => (
+        filme.titulo.toLowerCase().includes(search.toLowerCase())
+    ))
+
     return(
         <>
-        <h1>Movie List Page</h1>
-        {/* Exibe a lista de todos os filmes disponíveis categorizados por gênero.
-        Cada filme na lista é mostrado com uma imagem, 
-        título e um link para a página de detalhes do filme.*/}
+            <h1>Veja o catálogo completo de filmes</h1>
+            <input 
+                className="text-black"
+                type="text" 
+                name="search"
+                id="search"
+                value={search}
+                onChange={handleSearch}
+            />
+
+            <div className="flex gap-6">
+                {
+                    filmesFiltrados.length > 0 ?
+                    filmesFiltrados
+                        .map(filme => (
+                            <MovieCard key={filme.id} {...filme}/>
+                        ))
+                    :
+                    <p>Não há filmes com esse nome.</p>
+                }
+            </div>
         </>
     )
 }
