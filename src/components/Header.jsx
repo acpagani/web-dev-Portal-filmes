@@ -20,6 +20,7 @@ export default function Header(){
                         <li><NavLink to="/" className="hover:underline">Home</NavLink></li>
                         <li><NavLink to="/movies" className="hover:underline">Filmes</NavLink></li>
                         <li><NavLink to="/genre" className="hover:underline">Gêneros</NavLink></li>
+                        <li><NavLink to="/favoritos" className="hover:underline">Favoritos</NavLink></li>
                         <li><NavLink to="/contato" className="hover:underline">Contato</NavLink></li>
                         {isLogged && 
                             <li><NavLink to="/settings" className="hover:underline">Configurações</NavLink></li>}

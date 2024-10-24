@@ -3,6 +3,12 @@ import MovieCard from "../components/MovieCard";
 import movies from '../data/movies.json'
 
 export default function Home(){
+
+/*     const fetchMovies = async () => {
+        try {
+
+        }
+    } */
     return(
         <>
         <CardContainer titulo={"Filmes Antigos"}>
