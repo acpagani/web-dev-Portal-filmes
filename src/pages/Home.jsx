@@ -1,30 +1,66 @@
+import { useEffect, useState } from "react";
 import CardContainer from "../components/CardContainer";
 import MovieCard from "../components/MovieCard";
-import movies from '../data/movies.json'
 
 export default function Home(){
 
-/*     const fetchMovies = async () => {
+    const [filmesPopulares, setFilmesPopulares] = useState([])
+    const [filmesTrending, setFilmesTrending] = useState([])
+    const [filmesUpcoming, setFilmesUpcoming] = useState([])
+
+    const fetchMovies = async () => {
         try {
 
+            // Juntando todos os fetchs
+            const [resPopulares, resTrending, resUpcoming] = await Promise.all(
+                [
+                    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=pt-BR`),
+                    fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${import.meta.env.VITE_API_KEY}&language=pt-BR`),
+                    fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_API_KEY}&language=pt-BR`)
+                ]
+            )
+
+            // Convertendo em JSON
+            const popularData = await resPopulares.json()
+            const trendingData = await resTrending.json()
+            const upcomingData = await resUpcoming.json()
+
+            // Atualizar o estado
+            setFilmesPopulares(popularData.results)
+            setFilmesTrending(trendingData.results)
+            setFilmesUpcoming(upcomingData.results)
         }
-    } */
+        catch (error) {
+            console.error("Falha ao carregar os filmes:", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchMovies()
+    }, [])
+
     return(
         <>
-        <CardContainer titulo={"Filmes Antigos"}>
+        <CardContainer titulo={"Filmes Populares"}>
             {
 
-                movies
-                .filter(filme => filme.ano_lancamento < 2000)
+                filmesPopulares
                 .map( filme => (
                     <MovieCard key={filme.id} {...filme}/>
                 ))
             }
         </CardContainer>
-        <CardContainer titulo={"Melhores Avaliados"}>
+        <CardContainer titulo={"Filmes em alta"}>
             {
-                movies
-                .filter(filme => filme.avaliacao > 4)
+                filmesTrending
+                .map( filme => (
+                    <MovieCard key={filme.id} {...filme}/>
+                ))
+            }
+        </CardContainer>
+        <CardContainer titulo={"Filmes em breve"}>
+            {
+                filmesUpcoming
                 .map( filme => (
                     <MovieCard key={filme.id} {...filme}/>
                 ))
